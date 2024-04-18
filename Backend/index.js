@@ -7,7 +7,7 @@ import bookRoute from "./route/book.route.js";
 import userRoute from "./route/user.route.js";
 
 const app = express();
-
+const path= require('path')
 app.use(cors());
 app.use(express.json());
 
@@ -31,6 +31,11 @@ try {
 app.use("/book", bookRoute);
 app.use("/user", userRoute);
 
+app.use(express.static("./client/build"));
+app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
+});
+ 
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);
 });
